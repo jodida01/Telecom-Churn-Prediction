@@ -1,4 +1,5 @@
-Telecom Customer Churn Prediction
+# Telecom Customer Churn Prediction ###
+
 # 1. Business Understanding
 Overview
 Customer churn (or the loss of customers) is a major challenge for telecom companies like SyriaTel because acquiring new customers is far more expensive than retaining existing ones. High churn rates negatively impact profitability and market share.
