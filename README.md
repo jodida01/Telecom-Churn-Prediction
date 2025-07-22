@@ -1,131 +1,123 @@
-# Telecom Customer Churn Prediction 
+# Telecom Churn Prediction  
 
-# 1. Business Understanding
-Overview
-Customer churn (or the loss of customers) is a major challenge for telecom companies like SyriaTel because acquiring new customers is far more expensive than retaining existing ones. High churn rates negatively impact profitability and market share.
+Predicting customer churn for SyriaTel using machine learning and providing actionable business insights to improve retention strategies.
 
-This project leverages historical customer data to predict churn, enabling proactive measures to improve retention and customer satisfaction.
+---
 
-Business Problem
-- SyriaTel is experiencing customer churn, directly impacting revenue.
-- Lack of understanding of churn drivers prevents effective retention strategies.
-- Goal: Predict which customers are likely to churn and identify key influencing factors.
+## Table of Contents
+- [1. Business Understanding](#1-business-understanding)  
+- [2. Data Understanding](#2-data-understanding)  
+- [3. Data Preparation](#3-data-preparation)  
+- [4. Exploratory Data Analysis (EDA)](#4-exploratory-data-analysis-eda)  
+- [5. Feature Engineering](#5-feature-engineering)  
+- [6. Modeling](#6-modeling)  
+- [7. Model Evaluation](#7-model-evaluation)  
+- [8. Business Insights](#8-business-insights)  
+- [9. Recommended Actions](#9-recommended-actions)  
+- [10. How to Run](#10-how-to-run)  
 
-Project Objectives
-- Predict customer churn using machine learning models.
-- Identify important features contributing to churn.
-- Provide actionable business recommendations for retention.
+---
 
-# 2. Data Understanding
+## 1. Business Understanding
+Customer churn is a major challenge for telecom companies because **acquiring new customers costs more than retaining existing ones**.  
+This project predicts churn and identifies **key factors influencing churn** to help SyriaTel **implement proactive retention strategies**.
 
-Dataset: Kaggle - Churn in Telecoms Dataset
+**Problem Statement:**
+- SyriaTel is experiencing **high customer churn**, impacting revenue.
+- Lack of insights into churn drivers prevents effective retention.
+- Goal: **Predict customers likely to churn** and identify actionable factors.
 
-- Rows: 3,333
-- Target Variable: churn (binary: True = customer left)
-- Features: Customer demographics, usage patterns, service plans, and customer service interactions.
+**Objectives:**
+- Build **machine learning models** to predict churn.
+- Identify **top churn drivers** for strategic interventions.
+- Recommend **data-driven business actions**.
 
-Feature Types
+**Key KPI:**
+- Focus on **Recall > Precision**, because **False Negatives (missed churners) are more costly**.
 
-- Numeric: Account length, total day/evening/night minutes, charges, calls, etc.
-- Categorical: State, Area code, International plan, Voice mail plan.
+---
 
-# 3. Data Preparation
-Steps performed:
+## 2. Data Understanding
+- Dataset: [Kaggle – Churn in Telecom Dataset](https://www.kaggle.com/datasets/becksddf/churn-in-telecoms-dataset)  
+- Records: **3,333 customers**  
+- Features: **Numeric & Categorical** (usage stats, plans, calls, churn)  
 
-- Removed irrelevant features (phone number).
-- Checked and handled:Duplicates: None, Missing values: None.
-- Outlier treatment: Removed points beyond 3 standard deviations.
-- Feature correlation: Dropped highly correlated variables (correlation > 0.9).
-- Encoding: One-hot encoding applied to categorical features.
-- Target transformation: churn mapped to binary (0/1).
+---
 
-# 4. Exploratory Data Analysis (EDA)
+## 3. Data Preparation
+Steps:
+- Removed duplicates & irrelevant columns (e.g., phone number).
+- Handled missing values (none found).
+- Encoded categorical features using **One-Hot Encoding**.
+- Scaled numeric features using **StandardScaler**.
+- Handled class imbalance using **SMOTE** (oversampling minority class).
 
-Key Insights
-- Churn Distribution:
-- Only 14.5% of customers churned → highly imbalanced dataset.
-- Customer Service Calls: Churned customers often make 4+ service calls, non-churn typically 1–2 calls.
-- International Plan:Customers with an international plan show higher churn rates.
-- Area Code 415: Shows slightly higher churn percentage compared to others.
-- Correlation Analysis:Day/evening/night charges are perfectly correlated with their respective minutes → dropped redundant features.
+---
 
-Visuals
-- Churn distribution plots.
-- Numeric feature histograms.
-- Pairplot showing feature relationships by churn.
-- Heatmap for correlations.
-- Categorical feature distributions by churn.
+## 4. Exploratory Data Analysis (EDA)
+Key findings:
+- **14.5% churn rate** → Imbalanced dataset.
+- **Churners make more customer service calls**.
+- **International Plan customers churn more**.
+- High correlation between `minutes` and `charges` → dropped redundant features.
 
-# 5. Handling Class Imbalance
-Applied SMOTE (Synthetic Minority Oversampling Technique) on training set.
+**Visuals:**
+- Distribution plots
+- Correlation heatmap
+- Pairplots for churn patterns  
+*(See notebook for detailed visuals)*  
 
-Result: Balanced class distribution (50-50).
+---
 
-# 6. Feature Scaling
-Applied StandardScaler to normalize numeric features (important for Logistic Regression and KNN).
+## 5. Feature Engineering
+- Removed highly correlated features (r > 0.9).
+- Created dummy variables for categorical features.
+- Converted churn column into binary (0 = No Churn, 1 = Churn).
 
-# 7. Model Building
+---
+
+## 6. Modeling
 Models implemented:
-- Logistic Regression (Baseline Model)
-- Random Forest Classifier
-- Decision Tree Classifier
-- K-Nearest Neighbors (KNN) (added for comparison)
-- Train-Test Split
-- 70% Training, 30% Testing.
-- Stratified split to maintain class ratio.
+- **Logistic Regression** (Baseline)
+- **Random Forest Classifier** (Best performance)
+- **Decision Tree Classifier**
 
-# 8. Model Evaluation Metrics
-- Accuracy
-- Precision
-- Recall
-- F1-Score
-- ROC Curve & AUC Score
-- Confusion Matrix
+---
 
-# 9. Results Summary
-- Model	Accuracy	F1-Score	Recall	AUC
-- Logistic Regression	0.736	0.386	0.345	0.81
-- Random Forest	0.875	0.71	0.67	0.94
-- Decision Tree	0.835	0.62	0.58	0.87
-- KNN	0.78	0.50	0.46	0.84
+## 7. Model Evaluation
+| Model               | Accuracy | Precision | Recall | F1    | ROC-AUC |
+|----------------------|----------|-----------|--------|-------|---------|
+| Logistic Regression  | 0.86     | 0.47      | 0.32   | 0.38  | 0.79    |
+| Random Forest       | **0.91** | 0.54      | **0.64** | **0.59** | **0.88** |
+| Decision Tree       | 0.89     | 0.52      | 0.61   | 0.56  | 0.84    |
 
-✅ Random Forest is the best performing model, achieving:
+**Best Model:**  **Random Forest**  
+- Highest ROC-AUC (0.88)
+- Best recall for catching churners  
 
-- Accuracy: 87.5%
-- F1-score: 0.71
-- AUC: 0.94
+---
 
-# 10. Key Feature Importance (Random Forest)
-Top predictors of churn:
-- Customer Service Calls
-- Total Day Charge
-- International Plan (Yes)
+## 8. Business Insights
+- **Top churn drivers**:
+  1. Customer service calls (more calls = dissatisfaction)
+  2. International plan (high churn rate)
+  3. High usage (total day minutes)
 
-# 11. Business Implications
-- Customers with frequent service calls are at high churn risk → Improve customer support quality and reduce resolution time.
-- High day usage customers may need better value plans → Offer tailored packages.
-- Customers with international plans show higher churn → Review pricing or provide loyalty benefits.
+- **Actionable patterns**:
+  - Customers with multiple service calls are at **high churn risk**.
+  - International plan pricing or service issues likely causing churn.
 
-# 12. Recommendations
-- Implement predictive churn scoring for customers weekly/monthly.
-- Proactively engage customers with >3 service calls.
-- Offer personalized retention offers to high-risk customers.
-- Track A/B tests on retention campaigns to measure impact.
+---
 
-# 13. Next Steps
-- Deploy Random Forest model via API for real-time scoring.
-- Collect more granular data (customer feedback, payment behavior).
-- Experiment with advanced models like XGBoost, LightGBM, Neural Networks.
-- Explore threshold tuning to maximize recall (reduce false negatives).
+## 9. Recommended Actions
+ **Immediate Actions:**
+- Prioritize retention for customers with **>3 service calls**.
+- Review **international plan pricing & quality**.
+- Offer **loyalty perks** for high-usage customers.
 
-# 14. Project Files
-- notebook.ipynb – Complete analysis and modeling.
-- README.md – Project summary.
-- data/ – Dataset files.
-- images/ – Visualization outputs.
-
-# 15. Tools & Libraries
-- Python: pandas, numpy, scikit-learn, imbalanced-learn, seaborn, matplotlib, plotly.
-- SMOTE for class imbalance.
-- itHub for version control.
+ **KPIs to Track:**
+- **Churn Rate** (target ↓ by 10%)
+- **Customer Service Call Volume** (track dissatisfaction)
+- **Retention Campaign ROI**
+- **Customer Lifetime Value (CLV)**
 
