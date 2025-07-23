@@ -1,7 +1,12 @@
+<p align="center">
+  <img src="Images\image.png" alt="Customer Churn Infographic" width="700"/>
+</p>
+
 # Telecom Churn Prediction  
 
 Predicting customer churn for SyriaTel using machine learning and providing actionable business insights to improve retention strategies.
 
+**Author:** [Judah Odida](https://github.com/jodida01)
 ---
 
 ## Table of Contents
@@ -121,4 +126,21 @@ Models implemented:
 - **Retention Campaign ROI**
 - **Customer Lifetime Value (CLV)**
 
-#### By Judah Odida
+##  How to Run
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/jodida01/Telecom-Churn-Prediction.git
+   cd Telecom-Churn-Prediction
+
+2. Install dependencies:
+    ```
+    pip install -r requirements.txt
+
+3. Run the notebook:
+    ```
+    jupyter notebook churn.ipynb
+
+# License
+
+This project is licensed under the MIT License
